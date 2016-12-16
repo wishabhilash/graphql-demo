@@ -2,26 +2,33 @@
 
 require('app-module-path').addPath(__dirname);
 
-const koa = require('koa');
 // const koaBody = require('koa-bodyparser');
 const koaRouter = require('koa-router');
 const graphqlHTTP = require('koa-graphql');
-const mongo = require('koa-mongo-db');
 const mount = require('koa-mount');
 const schema = require('schema');
+const resolvers = require('api/resolvers');
 const { buildSchema } = require('graphql');
+var MongoClient = require('mongodb').MongoClient;
 
-const app = new koa();
+const _ = require('lodash');
+
+const app = require('app');
 const router = new koaRouter();
 const PORT = 3000;
 
-app.use(mongo('mongodb://localhost/ShawGraph'));
+app.use(function *(next){
+	let db = yield MongoClient.connect('mongodb://localhost/ShawGraph');	
+	this.req.db = db;
+	yield next;
+});
 
 const executableSchema = buildSchema(schema);
 
 app.use(mount('/graphql', graphqlHTTP({
 	schema: executableSchema,
-	graphiql: true
+	graphiql: true,
+	rootValue: resolvers
 })));
 
 app.use(router.routes());
