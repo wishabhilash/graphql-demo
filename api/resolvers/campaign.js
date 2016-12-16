@@ -8,6 +8,7 @@ const Lesson = require('api/resolvers/lesson');
 
 class Campaign {
 	constructor(db) {
+		this.db = db
 		this.campaign = db.collection('campaign').findOne();
 	}
 
@@ -18,8 +19,9 @@ class Campaign {
 	}
 
 	product() {
+		let localdb = this.db;
 		return this.campaign.then(function(a) {
-			return new Product(a._product_id);
+			return new Product(localdb, a._product_id);
 		});
 	}
 
