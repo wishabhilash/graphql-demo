@@ -32,7 +32,20 @@ const _resolvers = {
 			});
 			return campaignArr;
 		})
-		
+	},
+
+	setOnDemandCampaign: function({id, is_on_demand}, ctx) {
+		let db = ctx.req.db;
+		return db.collection('campaign').updateOne({
+			'_id': new ObjectId(id)
+		}, {
+			'$set': {'is_on_demand': is_on_demand}
+		}).then(function(status) {
+			return db.collection('campaign')
+			.findOne({'_id': new ObjectId(id)});
+		}).then(function(campaign) {
+			return new Campaign(campaign);
+		});
 	}
 }
 

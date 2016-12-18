@@ -31,6 +31,10 @@ class Campaign {
 		});
 		return lessonArr;
 	}
+
+	is_on_demand() {
+		return this.campaign.is_on_demand;
+	}
 }
 
 

@@ -50,12 +50,22 @@ typeDefinitions = `
 	}
 
 	type Query {
-		campaign(id: String!): Campaign
+		campaign(id: ID!): Campaign
 		campaigns(start: Int, end: Int): [Campaign]
 	}
 
+	type Message {
+		id: ID!
+		
+	}
+
+	type Mutation {
+		setOnDemandCampaign(id: ID!, is_on_demand: Boolean!): Campaign
+	}
+
 	schema {
-		query: Query
+		query: Query,
+		mutation: Mutation
 	}
 `
 
