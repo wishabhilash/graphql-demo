@@ -19,6 +19,10 @@ class Lesson {
 	end_time() {
 		return Math.round((new Date(this.lesson.end_time)).getTime()/1000);
 	}
+
+	vimeo_embed_code() {
+		return this.lesson.recording.vimeo_embed_code;
+	}
 }
 
 module.exports = Lesson

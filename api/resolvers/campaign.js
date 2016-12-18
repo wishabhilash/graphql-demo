@@ -1,38 +1,35 @@
 'use strict';
 
-var ObjectId = require('mongodb').ObjectId;
+const ObjectId = require('mongodb').ObjectId;
 const _ = require('lodash');
 const Product = require('api/resolvers/product');
 const Lesson = require('api/resolvers/lesson');
 
 
 class Campaign {
-	constructor(db) {
-		this.db = db
-		this.campaign = db.collection('campaign').findOne();
+	constructor(campaign) {
+		this.campaign = campaign
 	}
 
 	_id() {
-		return this.campaign.then(function(a) {
-			return a._id;
-		});
+		return this.campaign._id;
 	}
 
-	product() {
-		let localdb = this.db;
-		return this.campaign.then(function(a) {
-			return new Product(localdb, a._product_id);
+	product(args, ctx) {
+		let db = ctx.req.db;
+		return db.collection('product').findOne({
+			'_id': new ObjectId(this.campaign._product_id)
+		}).then(function(product) {
+			return new Product(product);
 		});
 	}
 
 	lessons() {
-		return this.campaign.then(function(a) {
-			let lessonArr = [];
-			_.each(a.lessons, function(lesson) {
-				lessonArr.push(new Lesson(lesson))
-			});
-			return lessonArr;
+		let lessonArr = [];
+		_.each(this.campaign.lessons, function(lesson) {
+			lessonArr.push(new Lesson(lesson))
 		});
+		return lessonArr;
 	}
 }
 

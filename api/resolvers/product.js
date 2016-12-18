@@ -5,52 +5,36 @@ const _ = require('lodash');
 
 
 class Product {
-	constructor(db, productId) {
-		this.product = db.collection('product').findOne({
-			'_id': new ObjectId(productId)
-		});
+	constructor(product) {
+		this.product = product;
 	}
 
 	_id() {
-		return this.product.then(function(a) {
-			return a._id;
-		});
+		return this.product._id;
 	}
 
 	short_slug() {
-		return this.product.then(function(a) {
-			return a.short_slug;
-		});
+		return this.product.short_slug;
 	}
 
 	ultimate() {
-		return this.product.then(function(a) {
-			return a.ultimate;
-		});
+		return this.product.ultimate;
 	}
 
 	timezone() {
-		return this.product.then(function(a) {
-			return a.timezone;
-		});
+		return this.product.timezone;
 	}
 
 	language_id() {
-		return this.product.then(function(a) {
-			return a._language_id;
-		});
+		return this.product._language_id;
 	}
 
 	slug() {
-		return this.product.then(function(a) {
-			return a.slug;
-		});
+		return this.product.slug;
 	}
 
 	name() {
-		return this.product.then(function(a) {
-			return a.name;
-		});
+		return this.product.name;
 	}
 }
 

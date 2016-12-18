@@ -24,6 +24,7 @@ typeDefinitions = `
 		name: String
 		start_time: Int
 		end_time: Int
+		vimeo_embed_code: Int
 	}
 
 	type Product {
@@ -49,7 +50,8 @@ typeDefinitions = `
 	}
 
 	type Query {
-		campaigns: Campaign
+		campaign(id: String!): Campaign
+		campaigns(start: Int, end: Int): [Campaign]
 	}
 
 	schema {
