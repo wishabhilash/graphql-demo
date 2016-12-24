@@ -2,6 +2,7 @@
 
 var ObjectId = require('mongodb').ObjectId;
 const _ = require('lodash');
+const Course = require('api/resolvers/course');
 
 
 class Product {
@@ -36,6 +37,16 @@ class Product {
 	name() {
 		return this.product.name;
 	}
+
+	course(args, ctx) {
+		let db = ctx.req.db;
+		return db.collection('course').findOne({
+			'_id': new ObjectId(this.product._course_id)
+		}).then(function(course) {
+			return new Course(course);
+		});
+	}
+
 }
 
 module.exports = Product

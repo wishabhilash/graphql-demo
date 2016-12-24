@@ -14,15 +14,22 @@ const _resolvers = {
 			});
 	},
 
-	campaigns: function({start, end}, ctx) {
+	campaigns: function({id, start_date, end_date, is_on_demand, skip, limit}, ctx) {
 		let db = ctx.req.db;
+		let args = {};
+		if (id != undefined) args['_id'] = new ObjectId(id);
+		if (start_date != undefined) args['start_date'] = new Date(start_date);
+		if (end_date != undefined) args['end_date'] = new Date(end_date);
+		if (is_on_demand != undefined) args['is_on_demand'] = is_on_demand;
 
-		let skip = start;
-		let limit = end - start || end;
 
-		let campaigns = db.collection('campaign').find();
-		if (skip != undefined) campaigns = campaigns.skip(skip);
-		if (limit != undefined) campaigns = campaigns.limit(limit);
+		let _skip = skip || 0;
+		let _limit = limit || 10;
+
+		let campaigns = db.collection('campaign').find(args);
+
+		if (_skip != undefined) campaigns = campaigns.skip(_skip);
+		if (_limit != undefined) campaigns = campaigns.limit(_limit);
 		
 		let campaignDocs = campaigns.toArray();
 		return campaignDocs.then(function(campaigns) {

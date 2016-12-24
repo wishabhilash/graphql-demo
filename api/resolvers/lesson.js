@@ -23,6 +23,22 @@ class Lesson {
 	vimeo_embed_code() {
 		return this.lesson.recording.vimeo_embed_code;
 	}
+
+	key() {
+		return this.lesson.key;
+	}
+
+	number() {
+		return this.lesson.number;
+	}
+
+	kind() {
+		return this.lesson.kind;
+	}
+
+	name() {
+		return this.lesson.name;
+	}
 }
 
 module.exports = Lesson

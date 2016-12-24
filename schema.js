@@ -8,23 +8,12 @@ typeDefinitions = `
 		logo: String
 		course_color: String
 		is_advanced_course: Boolean
-		products: [Product]
+		products(id: ID, short_slug: String, timezone: String, ultimate: Boolean, language_id: String, slug: String, skip: Int, limit: Int): [Product]
 	}
 
 	type Assignment {
 		link: String
 		name: String
-	}
-
-	type Lesson {
-		_id: ID!
-		key: String
-		number: Int
-		kind: String
-		name: String
-		start_time: Int
-		end_time: Int
-		vimeo_embed_code: Int
 	}
 
 	type Product {
@@ -36,9 +25,20 @@ typeDefinitions = `
 	    language_id : String 
 	    slug : String 
 	    name : String
-	    campaigns: [Campaign]
+	    campaigns(id: ID, start_date: Int, end_date: Int, is_on_demand: Boolean, skip: Int, limit: Int): [Campaign]
 	}
-
+	
+	type Lesson {
+		_id: ID!
+		key: String
+		number: Int
+		kind: String
+		name: String
+		start_time: Int
+		end_time: Int
+		vimeo_embed_code: Int
+	}
+	
 	type Campaign {
 		_id: ID!
 		start_date: Int
@@ -46,17 +46,12 @@ typeDefinitions = `
 		is_on_demand: Boolean
 		name: String
 		product: Product
-		lessons: [Lesson]
+		lessons(id: ID, kind: String, start_time: Int, end_time: Int): [Lesson]
 	}
 
 	type Query {
-		campaign(id: ID!): Campaign
-		campaigns(start: Int, end: Int): [Campaign]
-	}
-
-	type Message {
-		id: ID!
-		
+		campaign(id: ID): Campaign
+		campaigns(id: ID, start_date: Int, end_date: Int, is_on_demand: Boolean, skip: Int, limit: Int): [Campaign]
 	}
 
 	type Mutation {

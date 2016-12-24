@@ -11,6 +11,19 @@ class Campaign {
 		this.campaign = campaign
 	}
 
+	_is_subset(object1, object2) {
+		let flag = true;
+		_.each(object1, function (value, key) {
+			if (object2[key] != null) {
+				if (object2[key].toString() != value.toString()) flag = false;
+			} else {
+				flag = false;
+			}
+				
+		})
+		return flag;
+	}
+
 	_id() {
 		return this.campaign._id;
 	}
@@ -24,11 +37,21 @@ class Campaign {
 		});
 	}
 
-	lessons() {
+	lessons({id, kind, start_time, end_time}) {
+		let args = {};
+		if (id != undefined) args['_id'] = new ObjectId(id);
+		if (start_time != undefined) args['start_time'] = new Date(start_time*1000);
+		if (end_time != undefined) args['end_time'] = new Date(end_time*1000);
+		if (kind != undefined) args['kind'] = kind;
+		
 		let lessonArr = [];
+		let self = this;
+
 		_.each(this.campaign.lessons, function(lesson) {
-			lessonArr.push(new Lesson(lesson))
+			if (self._is_subset(args, lesson))
+				lessonArr.push(new Lesson(lesson))
 		});
+
 		return lessonArr;
 	}
 
