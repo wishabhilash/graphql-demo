@@ -22,11 +22,10 @@ const _resolvers = {
 		if (end_date != undefined) args['end_date'] = new Date(end_date);
 		if (is_on_demand != undefined) args['is_on_demand'] = is_on_demand;
 
-
 		let _skip = skip || 0;
 		let _limit = limit || 10;
 
-		let campaigns = db.collection('campaign').find(args);
+		let campaigns = db.collection('Campaign').find(args);
 
 		if (_skip != undefined) campaigns = campaigns.skip(_skip);
 		if (_limit != undefined) campaigns = campaigns.limit(_limit);

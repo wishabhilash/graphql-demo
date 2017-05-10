@@ -8,6 +8,7 @@ const graphqlHTTP = require('koa-graphql');
 const mount = require('koa-mount');
 const schema = require('schema');
 const resolvers = require('api/resolvers');
+const creds = require('creds');
 const { buildSchema } = require('graphql');
 var MongoClient = require('mongodb').MongoClient;
 
@@ -18,7 +19,7 @@ const router = new koaRouter();
 const PORT = 3000;
 
 app.use(function *(next){
-	let db = yield MongoClient.connect('mongodb://localhost/ShawGraph');	
+	let db = yield MongoClient.connect(creds.db_uri);
 	this.req.db = db;
 	yield next;
 });

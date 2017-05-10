@@ -40,7 +40,7 @@ class Product {
 
 	course(args, ctx) {
 		let db = ctx.req.db;
-		return db.collection('course').findOne({
+		return db.collection('Course').findOne({
 			'_id': new ObjectId(this.product._course_id)
 		}).then(function(course) {
 			return new Course(course);

@@ -37,6 +37,7 @@ class Lesson {
 	}
 
 	name() {
+		console.log(this.lesson.name);
 		return this.lesson.name;
 	}
 }
